@@ -30,9 +30,25 @@ namespace Kustova_3
             double x = x0;
             while (x < xk)
             {
-                double j = (0.5 * Math.Cos(a * Math.Pow(x, a)) + b) / (Math.Tan(Math.Pow(a * a + b - n, 1.0 / 3)));
+                var pow = Math.Pow(a * a + b - n, 1.0 / 3);
+                if (Math.Abs(pow % Math.PI - Math.PI / 2) > 0.000001)
+                {
+                    var tan = Math.Tan(pow);
+                    if (tan != 0)
+                    {
+                        double j = (0.5 * Math.Cos(a * Math.Pow(x, a)) + b) / tan;
 
-                Console.WriteLine("J({0:0.000}) = {1:0.000}", x, j);
+                        Console.WriteLine("J({0:0.000}) = {1:0.000}", x, j);
+                    }
+                    else
+                    {
+                        Console.WriteLine("J({0:0.000}) = ошибка! деление на 0", x);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("J({0:0.000}) = ошибка! тангенс не вычисляется (PI/2)", x);
+                }
                 
                 x += dx;
             }
